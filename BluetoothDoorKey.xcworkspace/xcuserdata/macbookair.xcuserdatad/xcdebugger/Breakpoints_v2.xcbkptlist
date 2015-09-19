@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   type = "0"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            scope = "0"
+            stopOnStyle = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BluetoothDoorKey/other/bletools/SerialGATT.m"
+            timestampString = "461685838.990691"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "190"
+            endingLineNumber = "190"
+            landmarkName = "-centralManager:didDiscoverPeripheral:advertisementData:RSSI:"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "BluetoothDoorKey/AppDelegate.swift"
+            timestampString = "461989609.291454"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
+            landmarkName = "applicationWillEnterForeground(_:)"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BluetoothDoorKey.AppDelegate.applicationWillEnterForeground (BluetoothDoorKey.AppDelegate)(ObjectiveC.UIApplication) -&gt; ()"
+                  moduleName = "BluetoothDoorKey"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbookair/lixiang/henry_document/OC/extrawork/%E8%93%9D%E7%89%99%E5%BC%80%E9%97%A8/%E8%93%9D%E7%89%99%E5%BC%80%E9%97%A8%E6%98%A8%E5%A4%A9/BluetoothDoorKey/AppDelegate.swift"
+                  timestampString = "462205781.808931"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "95"
+                  endingLineNumber = "95"
+                  offsetFromSymbolStart = "19">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "BluetoothDoorKey.AppDelegate.(applicationWillEnterForeground (BluetoothDoorKey.AppDelegate) -&gt; (ObjectiveC.UIApplication) -&gt; ()).(closure #1)"
+                  moduleName = "BluetoothDoorKey"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/macbookair/lixiang/henry_document/OC/extrawork/%E8%93%9D%E7%89%99%E5%BC%80%E9%97%A8/%E8%93%9D%E7%89%99%E5%BC%80%E9%97%A8%E6%98%A8%E5%A4%A9/BluetoothDoorKey/AppDelegate.swift"
+                  timestampString = "462205781.809239"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "96"
+                  endingLineNumber = "96"
+                  offsetFromSymbolStart = "31">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
