@@ -30,12 +30,25 @@ class KeyManager: NSObject {
     
     func loadDbKeys()
     {
-        let array : NSMutableArray? = KeyDbObject.allDbObjects();
-        if (array != nil)
+        let name: String? = NSUserDefaults.standardUserDefaults().objectForKey("UserName") as? String
+        if(name == nil)
         {
-            self.keyArray = array!
+            let array : NSMutableArray? = KeyDbObject.allDbObjects();
+            if (array != nil)
+            {
+                self.keyArray = array!
+            }
+            self.sensor.setup()
         }
-        self.sensor.setup()
+        else
+        {
+            let array : NSMutableArray? = KeyDbObject.dbObjectsWhere("userName='\(name!)'", orderby: nil);
+            if (array != nil)
+            {
+                self.keyArray = array!
+            }
+            self.sensor.setup()
+        }
     }
     func downloadKeys(success:(message:String) -> Void, failure:(error:NSError,message:String) -> Void)
     {

@@ -22,7 +22,7 @@ class KeyTableViewController: UITableViewController,KeyOpenTableViewCellDelegate
         var error:NSError? = nil
         do {
             self.player = try AVAudioPlayer(contentsOfURL: url!)
-        } catch var error1 as NSError {
+        } catch let error1 as NSError {
             error = error1
             self.player = nil
         }
@@ -42,7 +42,7 @@ class KeyTableViewController: UITableViewController,KeyOpenTableViewCellDelegate
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(false, animated: false)
-        var tabBarController = (UIApplication.sharedApplication().delegate as! AppDelegate).tabBarController
+        let tabBarController = (UIApplication.sharedApplication().delegate as! AppDelegate).tabBarController
         tabBarController?.tabBarHidden = false;
         self.tableView.reloadData()
         KeyManager.sharedInstance.sensor.delegate = self
@@ -67,9 +67,9 @@ class KeyTableViewController: UITableViewController,KeyOpenTableViewCellDelegate
     
     // MARK: - BLE delegate
     func peripheralFound(peripheral: CBPeripheral!, periphernalMac mac: String!) {
-        var lowerMacString = NSString(string: mac).lowercaseString
-        var keyData : NSData = KeyManager.descrpytKey(self.openKey!.dataPackage, WithPassword: self.openKey!.userName)
-        var decryptedString : NSString = NSString(data: keyData, encoding: NSUTF8StringEncoding)!.lowercaseString
+        let lowerMacString = NSString(string: mac).lowercaseString
+        let keyData : NSData = KeyManager.descrpytKey(self.openKey!.dataPackage, WithPassword: self.openKey!.userName)
+        let decryptedString : NSString = NSString(data: keyData, encoding: NSUTF8StringEncoding)!.lowercaseString
         if(lowerMacString == decryptedString)
         {
             if self.scanTimer != nil
@@ -80,8 +80,8 @@ class KeyTableViewController: UITableViewController,KeyOpenTableViewCellDelegate
             if (self.openKey!.password != "")
             {
                 KVNProgress.dismiss()
-                var alertView : SCLAlertView = SCLAlertView(newWindow: ())
-                var textField : UITextField = alertView.addTextField("输入开门密码");
+                let alertView : SCLAlertView = SCLAlertView(newWindow: ())
+                let textField : UITextField = alertView.addTextField("输入开门密码");
                 var button : SCLButton = alertView.addButton("开门", actionBlock: { () -> Void in
                     if(self.openKey!.password == textField.text)
                     {
@@ -175,7 +175,7 @@ class KeyTableViewController: UITableViewController,KeyOpenTableViewCellDelegate
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var key:KeyDbObject = KeyManager.sharedInstance.keyArray.objectAtIndex(indexPath.row) as!KeyDbObject
+        let key:KeyDbObject = KeyManager.sharedInstance.keyArray.objectAtIndex(indexPath.row) as!KeyDbObject
         var cell : KeyOpenTableViewCell? = nil
         if (key.isExpire(KeyManager.sharedInstance.serverDate))
         {
@@ -210,7 +210,7 @@ class KeyTableViewController: UITableViewController,KeyOpenTableViewCellDelegate
     }
 
     func keyOpenTableViewCell(cell: KeyOpenTableViewCell, ButtonClick button: UIButton) {
-        var indexPath : NSIndexPath = self.tableView.indexPathForCell(cell)!
+        let indexPath : NSIndexPath = self.tableView.indexPathForCell(cell)!
         self.openKey = KeyManager.sharedInstance.keyArray.objectAtIndex(indexPath.row) as? KeyDbObject
         self.scanTimer =  NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "scanTimer:", userInfo: nil, repeats: false)
         if(KeyManager.sharedInstance.sensor.activePeripheral != nil)
@@ -237,12 +237,12 @@ class KeyTableViewController: UITableViewController,KeyOpenTableViewCellDelegate
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        var tabBarController = (UIApplication.sharedApplication().delegate as! AppDelegate).tabBarController
+        let tabBarController = (UIApplication.sharedApplication().delegate as! AppDelegate).tabBarController
         tabBarController?.tabBarHidden = true;
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         if segue.identifier == "key_detail_segue"
         {
-            var keyDetailVC : KeyDetailViewController = segue.destinationViewController as! KeyDetailViewController
+            let keyDetailVC : KeyDetailViewController = segue.destinationViewController as! KeyDetailViewController
             keyDetailVC.keyObject = sender as? KeyDbObject
         }
     }

@@ -87,7 +87,7 @@ class BackUpTableViewController: UITableViewController,BackUpKeyTableViewCellDel
         let cell : BackUpKeyTableViewCell = tableView.dequeueReusableCellWithIdentifier("cell0", forIndexPath: indexPath) as! BackUpKeyTableViewCell
         cell.delegate = self
         // Configure the cell...
-        var label : UILabel = cell.viewWithTag(1) as! UILabel
+        let label : UILabel = cell.viewWithTag(1) as! UILabel
         label.text = self.fileList.objectAtIndex(indexPath.row) as? String
         return cell
     }

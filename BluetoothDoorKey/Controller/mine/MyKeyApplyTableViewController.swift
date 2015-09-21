@@ -8,8 +8,9 @@
 
 import UIKit
 
-class MyKeyApplyTableViewController: UITableViewController,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource {
+class MyKeyApplyTableViewController: UITableViewController,DZNEmptyDataSetDelegate,DZNEmptyDataSetSource,UIActionSheetDelegate {
 
+    var currentSelectedIndexPath : NSIndexPath?
 //    var dataArray : NSMutableArray?
 //    var currentPageNo : Int = 1
     override func viewDidLoad() {
@@ -33,12 +34,26 @@ class MyKeyApplyTableViewController: UITableViewController,DZNEmptyDataSetDelega
         
         self.tableView.emptyDataSetDelegate = self
         self.tableView.emptyDataSetSource = self
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "processNtf:", name: ntf_keyapplylist_refresh, object: nil)
     }
 
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    deinit
+    {
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+    
+    func processNtf(ntf:NSNotification)
+    {
+        if ntf.name == ntf_keyapplylist_refresh
+        {
+            self.tableView.triggerPullToRefresh()
+        }
     }
     
     override func pullRefreshFunc() {
@@ -68,7 +83,7 @@ class MyKeyApplyTableViewController: UITableViewController,DZNEmptyDataSetDelega
         self.currentPageNo!++
         AFHelpClient.sharedInstance.postHttpRequest(applyService, parameter: ["action":"list","currentPageNo":self.currentPageNo!,"pageSize":"20","sessionid":UserObject.sharedInstance.sessionId], success: { (operation, responseData, message) -> Void in
             self.tableView.infiniteScrollingView.stopAnimating()
-            var array : NSArray = (responseData as? NSArray)!
+            let array : NSArray = (responseData as? NSArray)!
             if(array.count == 0)
             {
                 self.tableView.showsInfiniteScrolling = false
@@ -114,7 +129,7 @@ class MyKeyApplyTableViewController: UITableViewController,DZNEmptyDataSetDelega
         self.tableView.triggerPullToRefresh()
     }
 
-    // MARK: - Table view data source
+    // MARK: - Table view data source & delegate
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
@@ -172,6 +187,38 @@ class MyKeyApplyTableViewController: UITableViewController,DZNEmptyDataSetDelega
         {
             cell.separatorInset = UIEdgeInsetsMake(0, 11, 0, 11)
         }
+    }
+    
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let actionSheet : UIActionSheet = UIActionSheet(title: "是否删除该条申请", delegate: self, cancelButtonTitle: "取消", destructiveButtonTitle: "删除");
+        actionSheet.showInView(self.view)
+        self.currentSelectedIndexPath = indexPath
+    }
+    
+    // MARK: actionSheet delegate
+    
+    func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
+        if  buttonIndex == actionSheet.destructiveButtonIndex
+        {
+            KVNProgress.showWithStatus("删除中")
+            let dic : NSDictionary = self.dataArray!.objectAtIndex(self.currentSelectedIndexPath!.row) as! NSDictionary
+            AFHelpClient.sharedInstance.postHttpRequest(applyService, parameter: ["action":"delete","sessionid":UserObject.sharedInstance.sessionId,"id":dic.objectForKey("id")!], success: { (operation, responseData, message) -> Void in
+                KVNProgress.showSuccessWithStatus(message)
+                self.dataArray!.removeObjectAtIndex(self.currentSelectedIndexPath!.row)
+                self.tableView.beginUpdates()
+                self.tableView.deleteRowsAtIndexPaths([self.currentSelectedIndexPath!], withRowAnimation: UITableViewRowAnimation.Automatic)
+                self.tableView.endUpdates()
+                self.currentSelectedIndexPath = nil
+                }, failure: { (operation, error, message) -> Void in
+                    KVNProgress.showErrorWithStatus(message)
+                    self.currentSelectedIndexPath = nil
+            })
+        }
+        else
+        {
+            self.currentSelectedIndexPath = nil
+        }
+        
     }
     /*
     // Override to support conditional editing of the table view.

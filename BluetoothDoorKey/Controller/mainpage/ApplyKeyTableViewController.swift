@@ -57,13 +57,13 @@ class ApplyKeyTableViewController: UITableViewController {
         {
             var userInfo : Dictionary<String,NSDictionary!> = ntf.userInfo as! Dictionary<String,NSDictionary!>
             self.districtInfo = userInfo["district"]
-            self.district.text = self.districtInfo?.objectForKey("name") as! String
+            self.district.text = self.districtInfo?.objectForKey("name") as? String
         }
     }
     
     @IBAction func commit(sender: UIButton) {
         KVNProgress.showWithStatus("提交中")
-        var cellId: AnyObject! = self.districtInfo?.objectForKey("id")
+        let cellId: AnyObject! = self.districtInfo?.objectForKey("id")
         if(cellId == nil)
         {
             KVNProgress.showErrorWithStatus("请先选择小区")
@@ -72,6 +72,7 @@ class ApplyKeyTableViewController: UITableViewController {
         AFHelpClient.sharedInstance.postHttpRequest(applyService, parameter: ["action":"save","sessionid":UserObject.sharedInstance.sessionId,"name":self.applyName.text!,"tel":self.mobile.text!,"cellId":cellId,"floor":self.otherInfo.text!], success: { (operation, responseData, message) -> Void in
             KVNProgress.showSuccessWithStatus(message, completion: { () -> Void in
                 self.navigationController?.popViewControllerAnimated(true)
+                NSNotificationCenter.defaultCenter().postNotificationName(ntf_keyapplylist_refresh, object: nil)
             })
         }) { (operation, error, message) -> Void in
             KVNProgress.showErrorWithStatus(message)

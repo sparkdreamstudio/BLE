@@ -233,7 +233,7 @@
                     <navigationItem key="navigationItem" id="au1-3F-7NB">
                         <nil key="title"/>
                         <button key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="0Gh-Dd-nPG">
-                            <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                            <rect key="frame" x="249" y="7" width="103" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
                             <state key="normal" image="shake_open">
@@ -698,6 +698,6 @@
         <image name="opendoor" width="49" height="49"/>
         <image name="person_icon" width="27" height="27"/>
         <image name="phone_icon" width="27" height="27"/>
-        <image name="shake_open" width="103" height="30"/>
+        <image name="shake_open" width="76" height="30"/>
     </resources>
 </document>

@@ -35,3 +35,4 @@
 #import <EAIntroView/EAIntroView.h>
 #import <SCLAlertView-Objective-C/SCLAlertView.h>
 #import <SCLAlertView-Objective-C/SCLAlertViewStyleKit.h>
+#import "UIImage+fixOrientation.h"

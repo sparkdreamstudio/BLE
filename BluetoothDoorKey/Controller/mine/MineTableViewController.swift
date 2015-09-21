@@ -52,7 +52,7 @@ class MineTableViewController: UITableViewController,UIActionSheetDelegate,UIIma
         }
         else
         {
-            var userNameString : NSString = NSString(string: userName!)
+            let userNameString : NSString = NSString(string: userName!)
             userName = userNameString.stringByReplacingCharactersInRange(NSMakeRange(3, 4), withString: "****")
             self.memberName.text = userName
             self.memberText.hidden = false
@@ -63,7 +63,7 @@ class MineTableViewController: UITableViewController,UIActionSheetDelegate,UIIma
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setNavigationBarHidden(true, animated: false)
-        var tabBarController = (UIApplication.sharedApplication().delegate as! AppDelegate).tabBarController
+        let tabBarController = (UIApplication.sharedApplication().delegate as! AppDelegate).tabBarController
         tabBarController?.tabBarHidden = false;
         self.loadMemberInfo()
     }
@@ -71,7 +71,7 @@ class MineTableViewController: UITableViewController,UIActionSheetDelegate,UIIma
     func actionSheet(actionSheet: UIActionSheet, clickedButtonAtIndex buttonIndex: Int) {
         if buttonIndex != actionSheet.cancelButtonIndex
         {
-            var imageVC : UIImagePickerController = UIImagePickerController()
+            let imageVC : UIImagePickerController = UIImagePickerController()
             if buttonIndex == 1
             {
                 imageVC.sourceType = UIImagePickerControllerSourceType.PhotoLibrary
@@ -88,7 +88,7 @@ class MineTableViewController: UITableViewController,UIActionSheetDelegate,UIIma
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
         picker.dismissViewControllerAnimated(true, completion: { () -> Void in
             KVNProgress.showWithStatus("上传头像")
-            AFHelpClient.sharedInstance.postImageRequest(memberService, data: UIImageJPEGRepresentation(image, 0.3), parameter: ["action":"modify","sessionid":UserObject.sharedInstance.sessionId], success: { (operation, responseData, message) -> Void in
+            AFHelpClient.sharedInstance.postImageRequest(memberService, data: UIImageJPEGRepresentation(image.fixOrientation(), 0.3), parameter: ["action":"modify","sessionid":UserObject.sharedInstance.sessionId], success: { (operation, responseData, message) -> Void in
                 UserObject.sharedInstance.usrImgURLString = responseData.objectForKey("img") as? String
                 self.loadMemberInfo()
                 KVNProgress.showSuccessWithStatus(message)
@@ -103,6 +103,8 @@ class MineTableViewController: UITableViewController,UIActionSheetDelegate,UIIma
     {
         UserObject.sharedInstance.logOut()
         NSNotificationCenter.defaultCenter().postNotificationName(ntf_time_out, object: nil)
+        NSUserDefaults.standardUserDefaults().setBool(false, forKey: "downloadedkeys")
+        NSUserDefaults.standardUserDefaults().synchronize()
         
     }
     
@@ -128,7 +130,7 @@ class MineTableViewController: UITableViewController,UIActionSheetDelegate,UIIma
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         if (indexPath.row == 0 && UserObject.sharedInstance.sessionId != "")
         {
-            let actionSheet:UIActionSheet = UIActionSheet(title: "修改头像", delegate: self, cancelButtonTitle: "", destructiveButtonTitle: nil, otherButtonTitles: "照片","相机")
+            let actionSheet:UIActionSheet = UIActionSheet(title: "修改头像", delegate: self, cancelButtonTitle: "取消", destructiveButtonTitle: nil, otherButtonTitles: "照片","相机")
             actionSheet.showInView(self.view)
         }
     }
@@ -139,13 +141,24 @@ class MineTableViewController: UITableViewController,UIActionSheetDelegate,UIIma
     }
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+//        switch indexPath.row
+//        {
+//        case 0:
+//            return kdScreenWidth*0.42
+//        case 1,2,3,4,6,7:
+//            return 52;
+//        case 5:
+//            return 6;
+//        default:
+//            return 0;
+//        }
         switch indexPath.row
         {
         case 0:
             return kdScreenWidth*0.42
-        case 1,2,3,4,6,7:
+        case 1,2,3,5,6:
             return 52;
-        case 5:
+        case 4:
             return 6;
         default:
             return 0;
@@ -153,7 +166,7 @@ class MineTableViewController: UITableViewController,UIActionSheetDelegate,UIIma
     }
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        var tabBarController = (UIApplication.sharedApplication().delegate as! AppDelegate).tabBarController
+        let tabBarController = (UIApplication.sharedApplication().delegate as! AppDelegate).tabBarController
         tabBarController?.tabBarHidden = true;
         self.navigationController?.setNavigationBarHidden(false, animated: false)
     }

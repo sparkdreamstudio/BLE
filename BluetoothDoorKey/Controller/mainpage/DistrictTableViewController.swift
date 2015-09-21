@@ -69,7 +69,7 @@ class DistrictTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) as! UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath) 
         var dic = self.dataArray?.objectAtIndex(indexPath.row) as! NSDictionary
         cell.textLabel?.text = dic.objectForKey("name") as? String
         cell.detailTextLabel?.text = ""//dic.objectForKey("tel") as? String

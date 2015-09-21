@@ -29,8 +29,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,EAIntroDelegate {
         KeyManager.sharedInstance.loadDbKeys()
         
         AFHelpClient.sharedInstance.postHttpRequest(otherService, parameter: ["action":"serverDate"], success: { (operation, responseData, message) -> Void in
-            var dateString : String = responseData.objectForKey("date") as! String
-            var dateFormatter:NSDateFormatter = NSDateFormatter()
+            let dateString : String = responseData.objectForKey("date") as! String
+            let dateFormatter:NSDateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             KeyManager.sharedInstance.serverDate = dateFormatter.dateFromString(dateString)!
             NSNotificationCenter.defaultCenter().postNotificationName(ntf_serverdate_refresh, object: nil)
@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,EAIntroDelegate {
         self.initNavigationBarApperance()
         self.window = CPMotionRecognizingWindow(frame: UIScreen.mainScreen().bounds)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "ntfProcess:", name: ntf_time_out, object: nil)
-        self.initControllers()
+        
 //        self.initControllers()
         
 //        UserObject.sharedInstance.autoLogIn { (result, message) -> Void in
@@ -50,32 +50,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate,EAIntroDelegate {
 //        self.window?.rootViewController = self.navgationController
         self.window?.makeKeyAndVisible()
         
-        
-        var name : String = ""
-        switch kdScreenHeight
+        if(NSUserDefaults.standardUserDefaults().boolForKey("introPage1.0.0") == false)
         {
-        case 480:
-            name = "4"
-        case 568:
-            name = "5"
-        case 667:
-            name = "6"
-        case 736:
-            name = "plus"
-        default:
-            name = "plus"
+            self.window?.rootViewController = UIViewController()
+            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "introPage1.0.0")
+            NSUserDefaults.standardUserDefaults().synchronize()
+            var name : String = ""
+            switch kdScreenHeight
+            {
+            case 480:
+                name = "4"
+            case 568:
+                name = "5"
+            case 667:
+                name = "6"
+            case 736:
+                name = "plus"
+            default:
+                name = "plus"
+                
+            }
+            let name1 = "yindaoye \(name)"
+            let name2 = "yindaoye \(name)1"
+            let page1 : EAIntroPage = EAIntroPage()
+            page1.bgImage = UIImage(named: name1);
+            let page2 : EAIntroPage = EAIntroPage()
+            page2.bgImage = UIImage(named: name2);
             
+            self.intro = EAIntroView(frame: CGRectMake(0, 0, kdScreenWidth, kdScreenHeight), andPages: [page1,page2])
+            self.intro?.delegate = self;
+            self.intro?.showSkipButtonOnlyOnLastPage = true
+            self.intro?.showFullscreen()
         }
-        var name1 = "yindaoye \(name)"
-        var name2 = "yindaoye \(name)1"
-        var page1 : EAIntroPage = EAIntroPage()
-        page1.bgImage = UIImage(named: name1);
-        var page2 : EAIntroPage = EAIntroPage()
-        page2.bgImage = UIImage(named: name2);
+        else
+        {
+            self.initControllers()
+            NSNotificationCenter.defaultCenter().postNotificationName(ntf_time_out, object: nil)
+        }
         
-        self.intro = EAIntroView(frame: CGRectMake(0, 0, kdScreenWidth, kdScreenHeight), andPages: [page1,page2])
-        self.intro?.delegate = self;
-        self.intro?.showFullscreen()
         
         
         return true
@@ -93,8 +105,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,EAIntroDelegate {
 
     func applicationWillEnterForeground(application: UIApplication) {
         AFHelpClient.sharedInstance.postHttpRequest(otherService, parameter: ["action":"serverDate"], success: { (operation, responseData, message) -> Void in
-            var dateString : String = responseData.objectForKey("date") as! String
-            var dateFormatter:NSDateFormatter = NSDateFormatter()
+            let dateString : String = responseData.objectForKey("date") as! String
+            let dateFormatter:NSDateFormatter = NSDateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             KeyManager.sharedInstance.serverDate = dateFormatter.dateFromString(dateString)!
             NSNotificationCenter.defaultCenter().postNotificationName(ntf_serverdate_refresh, object: nil)
@@ -112,6 +124,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,EAIntroDelegate {
     }
     
     func introDidFinish(introView: EAIntroView!) {
+        self.initControllers()
         NSNotificationCenter.defaultCenter().postNotificationName(ntf_time_out, object: nil)
     }
     

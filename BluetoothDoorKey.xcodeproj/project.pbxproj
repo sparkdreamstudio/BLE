@@ -67,6 +67,7 @@
 		F165E3991B8C0DE3002D9A19 /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F165E3981B8C0DE3002D9A19 /* AboutViewController.swift */; };
 		F16CAF1E1B85C1DB0025D167 /* dd.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = F16CAF1D1B85C1DB0025D167 /* dd.mp3 */; };
 		F16CAF211B85C86C0025D167 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = F16CAF231B85C86C0025D167 /* Localizable.strings */; };
+		F17D2D981BAE5C740005D0EB /* UIImage+fixOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = F17D2D971BAE5C740005D0EB /* UIImage+fixOrientation.m */; settings = {ASSET_TAGS = (); }; };
 		F189EBC91B8418F600E523A2 /* KeyOpenTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F189EBC81B8418F600E523A2 /* KeyOpenTableViewCell.swift */; };
 		F189EBCB1B84688B00E523A2 /* ClearPasswordTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F189EBCA1B84688B00E523A2 /* ClearPasswordTableViewController.swift */; };
 /* End PBXBuildFile section */
@@ -161,6 +162,8 @@
 		F16CAF1D1B85C1DB0025D167 /* dd.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = dd.mp3; sourceTree = "<group>"; };
 		F16CAF221B85C86C0025D167 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F16CAF251B85C8840025D167 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		F17D2D961BAE5C740005D0EB /* UIImage+fixOrientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+fixOrientation.h"; path = "other/other/UIImage+fixOrientation.h"; sourceTree = "<group>"; };
+		F17D2D971BAE5C740005D0EB /* UIImage+fixOrientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+fixOrientation.m"; path = "other/other/UIImage+fixOrientation.m"; sourceTree = "<group>"; };
 		F189EBC81B8418F600E523A2 /* KeyOpenTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KeyOpenTableViewCell.swift; path = Controller/Key/KeyOpenTableViewCell.swift; sourceTree = "<group>"; };
 		F189EBCA1B84688B00E523A2 /* ClearPasswordTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ClearPasswordTableViewController.swift; path = Controller/Key/ClearPasswordTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -297,6 +300,8 @@
 			children = (
 				D094EDE21B8206E900171C6F /* YQZCubeAnimationView.h */,
 				D094EDE31B8206E900171C6F /* YQZCubeAnimationView.m */,
+				F17D2D961BAE5C740005D0EB /* UIImage+fixOrientation.h */,
+				F17D2D971BAE5C740005D0EB /* UIImage+fixOrientation.m */,
 			);
 			name = other;
 			sourceTree = "<group>";
@@ -700,6 +705,7 @@
 				D04C42341B64CCD9004B86ED /* JKCountDownButton.m in Sources */,
 				D00C92BD1B8CA6C80040D2EC /* BackUpContainerViewController.swift in Sources */,
 				D09894A11B77A9D400189B41 /* KayPasswordTableViewController.swift in Sources */,
+				F17D2D981BAE5C740005D0EB /* UIImage+fixOrientation.m in Sources */,
 				D04C42271B64B466004B86ED /* UserObject.swift in Sources */,
 				D03E71D51B520F120006B7B0 /* CPMotionRecognizingWindow.m in Sources */,
 				D0E592161B6FA26B00CD6E63 /* KeyTableViewController.swift in Sources */,
@@ -900,6 +906,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer: taiping liu (45U36U3BC3)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: taiping liu (45U36U3BC3)";
+				ENABLE_BITCODE = NO;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"COCOAPODS=1",
@@ -923,11 +930,12 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: hu'nan hexieshengshi technology co., LTD (94R5F9D8J6)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: hu'nan hexieshengshi technology co., LTD (94R5F9D8J6)";
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = BluetoothDoorKey/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "fb0488ea-b059-4215-9501-98ef1aa502bb";
+				PROVISIONING_PROFILE = "16d82238-271f-403a-a153-dee8d39ee42e";
 				SWIFT_OBJC_BRIDGING_HEADER = BluetoothDoorKey/BD_bridging_header.h;
 			};
 			name = Release;

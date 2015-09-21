@@ -48,7 +48,7 @@ class RegisterTableViewController: UITableViewController {
         {
         case 1:
             
-            var jkButton : JKCountDownButton = sender as! JKCountDownButton
+            let jkButton : JKCountDownButton = sender as! JKCountDownButton
             jkButton.enabled = false
             jkButton.startWithSecond(60)
             jkButton.didChange({ (btn, second) -> String! in

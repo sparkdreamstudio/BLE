@@ -17,9 +17,9 @@ class KeyDbObject: AutoDbObject {
     
     func isExpire(nowDate:NSDate) -> Bool
     {
-        var dateFormatter:NSDateFormatter = NSDateFormatter()
+        let dateFormatter:NSDateFormatter = NSDateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        var expiredDate : NSDate = dateFormatter.dateFromString(self.validity)!
+        let expiredDate : NSDate = dateFormatter.dateFromString(self.validity)!
         return expiredDate.compare(nowDate) == NSComparisonResult.OrderedAscending
     }
 }

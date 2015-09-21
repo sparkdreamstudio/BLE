@@ -138,8 +138,8 @@ public class AFHelpClient : NSObject {
                 })
                 return
             }
-            var result: Bool = responseObject.objectForKey("result") as! Bool;
-            var code : Int = responseObject.objectForKey("code")! as! Int
+            let result: Bool = responseObject.objectForKey("result") as! Bool;
+            let code : Int = responseObject.objectForKey("code")! as! Int
             if(code == 200 && result == true)
             {
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW,Int64(NSEC_PER_SEC/4)), dispatch_get_main_queue(), { () -> Void in

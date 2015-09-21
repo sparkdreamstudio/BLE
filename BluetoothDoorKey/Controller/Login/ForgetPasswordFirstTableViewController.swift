@@ -47,7 +47,7 @@ class ForgetPasswordFirstTableViewController: UITableViewController {
         {
         case 1:
             
-            var jkButton : JKCountDownButton = sender as! JKCountDownButton
+            let jkButton : JKCountDownButton = sender as! JKCountDownButton
             jkButton.enabled = false
             jkButton.startWithSecond(60)
             jkButton.didChange({ (btn, second) -> String! in
@@ -109,7 +109,7 @@ class ForgetPasswordFirstTableViewController: UITableViewController {
         // Pass the selected object to the new view controller.
         if segue.identifier == "show_second_change_pwd"
         {
-            var controller : ForgetPasswordSecondTableViewController = segue.destinationViewController as! ForgetPasswordSecondTableViewController
+            let controller : ForgetPasswordSecondTableViewController = segue.destinationViewController as! ForgetPasswordSecondTableViewController
             controller.userName = self.mobileTextField.text
         }
     }

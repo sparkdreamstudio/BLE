@@ -45,14 +45,19 @@ class LoginViewController: UIViewController {
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        var name: AnyObject? = NSUserDefaults.standardUserDefaults().objectForKey("UserName")
-        var pwd: AnyObject? = NSUserDefaults.standardUserDefaults().objectForKey("PassWord")
-        if(name == nil || pwd == nil)
+        let name: AnyObject? = NSUserDefaults.standardUserDefaults().objectForKey("UserName")
+        let pwd: AnyObject? = NSUserDefaults.standardUserDefaults().objectForKey("PassWord")
+        if(name == nil && pwd == nil)
         {
             return
         }
-        self.userNameLabel.text = name as! String
-        self.passWordLabel.text = pwd  as! String
+        if(name != nil && pwd==nil)
+        {
+            self.userNameLabel.text = name as? String
+            return;
+        }
+        self.userNameLabel.text = name as? String
+        self.passWordLabel.text = pwd  as? String
         self.LogIn(UIButton())
     }
     
@@ -67,11 +72,32 @@ class LoginViewController: UIViewController {
         UserObject.sharedInstance.logInWith(self.userNameLabel.text!, password: self.passWordLabel.text!) { (result, message) -> Void in
             if result == true
             {
-                KVNProgress.showSuccessWithStatus(message, completion: { () -> Void in
-                    self.navigationController?.dismissViewControllerAnimated(true, completion: { () -> Void in
-                        
+                if NSUserDefaults.standardUserDefaults().boolForKey("downloadedkeys") == false
+                {
+                    KVNProgress.showWithStatus("首次登陆，下载钥匙")
+                    KeyManager.sharedInstance.loadDbKeys()
+                    KeyManager.sharedInstance.downloadKeys({ (keymessage) -> Void in
+                        NSUserDefaults.standardUserDefaults().setBool(true, forKey: "downloadedkeys")
+                        NSUserDefaults.standardUserDefaults().synchronize()
+                        KVNProgress.showSuccessWithStatus(keymessage, completion: { () -> Void in
+                            self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+                        })
+                        }, failure: { (error, keymessage) -> Void in
+                            KVNProgress.showErrorWithStatus(keymessage, completion: { () -> Void in
+                                self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+                            })
+                            
                     })
-                })
+                }
+                else
+                {
+                    KVNProgress.showSuccessWithStatus(message, completion: { () -> Void in
+                        self.navigationController?.dismissViewControllerAnimated(true, completion: { () -> Void in
+                            
+                        })
+                    })
+                }
+                
             }
             else
             {

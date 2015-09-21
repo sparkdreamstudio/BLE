@@ -32,14 +32,15 @@ class UserObject: NSObject {
     func logInWith(name: String,password:String,resultBlock:(result:Bool,message:String)->Void)->Void
     {
         AFHelpClient.sharedInstance.postHttpRequest(memberService, parameter: ["action":"login","userName":name,"password":password], success: { (operation, responseData, message) -> Void in
-            resultBlock(result: true, message: message)
+            self.sessionId = (responseData as! NSDictionary).objectForKey("sessionid") as? String
             self.userName = name
             self.passWord = password
             NSUserDefaults.standardUserDefaults().setObject(self.userName, forKey: "UserName");
             NSUserDefaults.standardUserDefaults().setObject(self.passWord, forKey: "PassWord");
             NSUserDefaults.standardUserDefaults().synchronize()
-            self.sessionId = (responseData as! NSDictionary).objectForKey("sessionid") as? String
             self.usrImgURLString = (responseData as! NSDictionary).objectForKey("img") as? String
+            resultBlock(result: true, message: message)
+            
             NSNotificationCenter.defaultCenter().postNotificationName(ntf_log_in, object: nil)
             
         }) { (operation, error, message) -> Void in
@@ -49,8 +50,8 @@ class UserObject: NSObject {
     
     func autoLogIn(resultBlock:(result:Bool,message:String)->Void)->Void
     {
-        var name: AnyObject? = NSUserDefaults.standardUserDefaults().objectForKey("UserName")
-        var pwd: AnyObject? = NSUserDefaults.standardUserDefaults().objectForKey("PassWord")
+        let name: AnyObject? = NSUserDefaults.standardUserDefaults().objectForKey("UserName")
+        let pwd: AnyObject? = NSUserDefaults.standardUserDefaults().objectForKey("PassWord")
         if(name == nil || pwd == nil)
         {
             resultBlock(result: false, message: "")
@@ -68,7 +69,7 @@ class UserObject: NSObject {
         self.userName = nil
         self.passWord = nil
         self.sessionId = ""
-        NSUserDefaults.standardUserDefaults().removeObjectForKey("UserName")
+//        NSUserDefaults.standardUserDefaults().removeObjectForKey("UserName")
         NSUserDefaults.standardUserDefaults().removeObjectForKey("PassWord")
     }
     
