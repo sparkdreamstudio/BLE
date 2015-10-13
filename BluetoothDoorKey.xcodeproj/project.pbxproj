@@ -935,7 +935,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "16d82238-271f-403a-a153-dee8d39ee42e";
+				PROVISIONING_PROFILE = "fb0488ea-b059-4215-9501-98ef1aa502bb";
 				SWIFT_OBJC_BRIDGING_HEADER = BluetoothDoorKey/BD_bridging_header.h;
 			};
 			name = Release;

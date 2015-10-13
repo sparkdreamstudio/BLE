@@ -338,7 +338,8 @@
     //[self notify:peripheral on:YES];
     
     [self printPeripheralInfo:peripheral];
-    
+//    [delegate setConnect];
+
     printf("connected to the active peripheral\n");
 }
 
@@ -375,7 +376,7 @@
 
 - (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
 {
-    
+    [delegate didWriteValue];
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didWriteValueForDescriptor:(CBDescriptor *)descriptor error:(NSError *)error

@@ -17,6 +17,9 @@
 - (void) peripheralFound:(CBPeripheral *)peripheral periphernalMac :(NSString *)mac;
 //接收数据返回
 - (void) serialGATTCharValueUpdated: (NSString *)UUID value: (NSData *)data;
+
+//写数据回调
+- (void)didWriteValue;
 //连接后调用的委托
 - (void) setConnect;
 //断开蓝牙后调用的委托

@@ -110,7 +110,7 @@ class HomePageTableViewController: UITableViewController,BLEDelegate,OpenDoorTab
             KVNProgress.showErrorWithStatus("没有钥匙")
             return
         }
-        self.scanTimer =  NSTimer.scheduledTimerWithTimeInterval(5, target: self, selector: "scanTimer:", userInfo: nil, repeats: false)
+        self.scanTimer =  NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: "scanTimer:", userInfo: nil, repeats: false)
         if(KeyManager.sharedInstance.sensor.activePeripheral != nil)
         {
             if(KeyManager.sharedInstance.sensor.activePeripheral.state == CBPeripheralState.Connected)
@@ -125,7 +125,7 @@ class HomePageTableViewController: UITableViewController,BLEDelegate,OpenDoorTab
         }
         KeyManager.sharedInstance.sensor.delegate = self
         KVNProgress.showWithStatus("寻找设备中")
-        KeyManager.sharedInstance.sensor.findBLEPeripherals(5)
+        KeyManager.sharedInstance.sensor.findBLEPeripherals(3)
         
     }
     
@@ -207,24 +207,34 @@ class HomePageTableViewController: UITableViewController,BLEDelegate,OpenDoorTab
     }
     
     func setConnect() {
-        dispatch_async(dispatch_get_global_queue(0, 0), { () -> Void in
-            KeyManager.sharedInstance.sensor.write(KeyManager.sharedInstance.sensor.activePeripheral, data: Utility.parseHexToByteArray("C502345604AA"))
+        KeyManager.sharedInstance.sensor.write(KeyManager.sharedInstance.sensor.activePeripheral, data: Utility.parseHexToByteArray("C502345604AA"))
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (Int64)(2 * NSEC_PER_SEC)), dispatch_get_main_queue()) { () -> Void in
+            self.player!.play()
+            KVNProgress.showSuccessWithStatus("开门成功")
             KeyManager.sharedInstance.sensor.disconnect(KeyManager.sharedInstance.sensor.activePeripheral)
-            KeyManager.sharedInstance.sensor.activePeripheral = nil
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                self.player!.play()
-                KVNProgress.showSuccessWithStatus("开门成功")
-                AFHelpClient.sharedInstance.postHttpRequest(messageService, parameter: ["action":"save","sessionid":UserObject.sharedInstance.sessionId,"content":self.openKeyObject!.name,"keyId":self.openKeyObject!.__id__], success: { (operation, responseData, message) -> Void in
+            AFHelpClient.sharedInstance.postHttpRequest(messageService, parameter: ["action":"save","sessionid":UserObject.sharedInstance.sessionId,"content":self.openKeyObject!.name,"keyId":self.openKeyObject!.__id__], success: { (operation, responseData, message) -> Void in
+                
+                }, failure: { (operation, error, message) -> Void in
                     
-                    }, failure: { (operation, error, message) -> Void in
-                        
-                })
             })
-        })
+        }
     }
     
     func setDisconnect() {
-        KVNProgress.showErrorWithStatus("连接设备失败")
+//        KVNProgress.showErrorWithStatus("连接设备失败")
+//        KVNProgress.showSuccessWithStatus("已与设备断开联接")
+        
+    }
+    
+    func didWriteValue() {
+//        self.player!.play()
+//        KVNProgress.showWithStatus("开门成功")
+//        KeyManager.sharedInstance.sensor.disconnect(KeyManager.sharedInstance.sensor.activePeripheral)
+//        AFHelpClient.sharedInstance.postHttpRequest(messageService, parameter: ["action":"save","sessionid":UserObject.sharedInstance.sessionId,"content":self.openKeyObject!.name,"keyId":self.openKeyObject!.__id__], success: { (operation, responseData, message) -> Void in
+//            
+//            }, failure: { (operation, error, message) -> Void in
+//                
+//        })
     }
     
     // MARK: - cubedelegate
